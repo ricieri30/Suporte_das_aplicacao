@@ -13,7 +13,10 @@ Não foi possível realizar a análise ou correção de bugs técnicos (erros de
 - **Frontend**: Faltam os componentes e páginas React do dashboard.
 - **Infraestrutura**: Faltam os arquivos `docker-compose.yml` e `install.sh` necessários para a orquestração e implantação.
 
-O projeto atual atua como um "esqueleto" documental, onde os arquivos `README.md` e `GITHUB_READY.md` descrevem um sistema que ainda não foi materializado no sistema de arquivos deste repositório.
+O projeto atual inicialmente atuava como um "esqueleto" documental. Para resolver erros de build ("No Docker compose files found") e fornecer uma base funcional, **scaffoldei uma estrutura inicial mínima**, incluindo:
+- `docker-compose.yml` para orquestração.
+- Estrutura de diretórios `backend/` e `frontend/` com seus respectivos `Dockerfile` e `package.json`.
+- Scripts de entrada e configurações base (`install.sh`, `.env.example`).
 
 ---
 
