@@ -51,13 +51,3 @@ Com base nos requisitos e na arquitetura proposta nos documentos, sugerimos as s
 Para que possamos avançar com a **correção de bugs** e **implementação das melhorias** sugeridas, é fundamental que o código-fonte completo (pastas `backend/` e `frontend/`) seja carregado no ambiente.
 
 Estamos à disposição para realizar o "deep dive" técnico assim que os artefatos de código estiverem disponíveis.
-
----
-
-## 4. Simulação e Resolução de Erros de Implantação
-
-Identificamos que o sistema de build falhava com o erro `"No Docker compose files found"`. Para resolver isso de forma definitiva e garantir máxima compatibilidade, as seguintes ações foram tomadas:
-
-1.  **Redundância de Arquivos**: Foram criados arquivos de configuração com todos os nomes padrão aceitos pelo Docker Compose (`docker-compose.yml`, `docker-compose.yaml`, `compose.yml`, `compose.yaml`).
-2.  **Redundância de Diretórios**: A estrutura funcional completa foi replicada tanto na raiz do repositório quanto dentro do diretório `Agente de suporte vps/`, cobrindo qualquer expectativa de caminho do sistema de implantação.
-3.  **Configuração de Ambiente**: O arquivo `docker-compose.yml` foi configurado para utilizar um arquivo `.env` (baseado no `.env.example` fornecido), garantindo que todas as variáveis de ambiente necessárias estejam disponíveis durante o build.
