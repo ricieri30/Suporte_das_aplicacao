@@ -54,10 +54,13 @@ Estamos à disposição para realizar o "deep dive" técnico assim que os artefa
 
 ---
 
-## 4. Simulação e Resolução de Erros de Implantação
+## 4. Guia de Resolução de Erros de Implantação (Hostinger/VPS)
 
-Identificamos que o sistema de build falhava com o erro `"No Docker compose files found"`. Para resolver isso de forma definitiva e garantir máxima compatibilidade, as seguintes ações foram tomadas:
+Identificamos que o sistema de build falhava com o erro `"No Docker compose files found"`. Para resolver isso de forma definitiva e garantir máxima compatibilidade com provedores como Hostinger, tomamos as seguintes medidas:
 
-1.  **Padronização de Arquivos**: Foi criado o arquivo de configuração `docker-compose.yml` na raiz do projeto, seguindo o padrão universal da indústria.
-2.  **Higiene do Repositório**: A estrutura funcional completa foi movida para a raiz do repositório, removendo subpastas desnecessárias e arquivos binários (.zip) que não eram utilizados no processo de build, garantindo uma estrutura limpa e profissional.
-3.  **Configuração de Ambiente**: O arquivo `docker-compose.yml` foi configurado para utilizar um arquivo `.env` (baseado no `.env.example` fornecido), garantindo que todas as variáveis de ambiente necessárias estejam disponíveis durante o build.
+1.  **Redundância de Nomes de Arquivo**: Foram disponibilizados os arquivos `docker-compose.yml` e `docker-compose.yaml` na raiz do repositório, garantindo que o parser do Docker encontre a configuração independente da extensão preferida.
+2.  **Redundância de Caminhos**: Mantivemos a estrutura original e também os arquivos de configuração dentro do diretório `Agente de suporte vps/`, cobrindo casos onde o sistema de implantação foca em subpastas específicas detectadas durante o clone.
+3.  **Higiene do Repositório**: Arquivos de log e diretórios temporários foram adicionados ao `.gitignore` e `.dockerignore` para garantir que o processo de build seja limpo e focado apenas no código necessário.
+4.  **Configuração de Fallback**: O `docker-compose.yml` foi simplificado para não ter dependências críticas de arquivos `.env` externos durante a fase de validação (parsing), utilizando valores default.
+
+---
