@@ -54,13 +54,13 @@ Estamos à disposição para realizar o "deep dive" técnico assim que os artefa
 
 ---
 
-## 4. Guia de Resolução de Erros de Implantação (Hostinger/VPS)
+## 4. Guia de Resolução de Erros de Implantação (Build/Docker)
 
-Identificamos que o sistema de build falhava com o erro `"No Docker compose files found"`. Para resolver isso de forma definitiva e garantir máxima compatibilidade com provedores como Hostinger, tomamos as seguintes medidas:
+Identificamos que o sistema de build falhava com o erro `"No Docker compose files found"`. Para resolver isso de forma definitiva e garantir o sucesso da implantação, tomamos as seguintes medidas:
 
-1.  **Redundância de Nomes de Arquivo**: Foram disponibilizados os arquivos `docker-compose.yml` e `docker-compose.yaml` na raiz do repositório, garantindo que o parser do Docker encontre a configuração independente da extensão preferida.
-2.  **Redundância de Caminhos**: Mantivemos a estrutura original e também os arquivos de configuração dentro do diretório `Agente de suporte vps/`, cobrindo casos onde o sistema de implantação foca em subpastas específicas detectadas durante o clone.
-3.  **Higiene do Repositório**: Arquivos de log e diretórios temporários foram adicionados ao `.gitignore` e `.dockerignore` para garantir que o processo de build seja limpo e focado apenas no código necessário.
-4.  **Configuração de Fallback**: O `docker-compose.yml` foi simplificado para não ter dependências críticas de arquivos `.env` externos durante a fase de validação (parsing), utilizando valores default.
+1.  **Padronização na Raiz**: Centralizamos o arquivo `docker-compose.yml` na raiz do repositório, removendo subpastas redundantes que poderiam confundir o sistema de detecção automática.
+2.  **Lógica de Monitoramento Real**: Implementamos código real no Backend para coleta de métricas de sistema e listagem de containers, transformando o repositório em uma aplicação funcional.
+3.  **Higiene do Repositório**: Adicionamos arquivos `.dockerignore` e `.gitignore` para garantir que o processo de build seja otimizado e focado apenas no código fonte.
+4.  **Nota sobre Branches**: Os arquivos de correção estão atualmente em uma branch de recurso. Para que a implantação automática (ex: Hostinger) funcione na branch `main`, é necessário realizar o merge das alterações enviadas.
 
 ---
