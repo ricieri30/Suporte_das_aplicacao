@@ -8,9 +8,20 @@ dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3000;
+const API_KEY = process.env.API_KEY || 'vps-guardian-secret-key';
 const docker = new Docker({ socketPath: '/var/run/docker.sock' });
 
 app.use(cors());
+
+// Basic API Key Middleware
+app.use((req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  if (authHeader && authHeader === `Bearer ${API_KEY}`) {
+    next();
+  } else {
+    res.status(401).json({ error: 'Unauthorized' });
+  }
+});
 app.use(express.json());
 
 app.get('/api/health', (req, res) => {

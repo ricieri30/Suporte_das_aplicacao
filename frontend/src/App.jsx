@@ -3,9 +3,14 @@ import { Shield, Activity, Database, Settings, LayoutDashboard } from 'lucide-re
 
 function App() {
   const [data, setData] = useState({ containers: [], metrics: { cpu: 0, ram: 0, disk: 0 } })
+  const API_KEY = 'vps-guardian-secret-key'; // In production, this should come from process.env
 
   useEffect(() => {
-    fetch('/api/dashboard')
+    fetch('/api/dashboard', {
+      headers: {
+        'Authorization': `Bearer ${API_KEY}`
+      }
+    })
       .then(res => res.json())
       .then(setData)
       .catch(console.error)
