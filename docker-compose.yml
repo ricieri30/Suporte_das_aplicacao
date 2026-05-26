@@ -1,0 +1,79 @@
+version: '3.8'
+
+services:
+  # MongoDB
+  mongodb:
+    image: mongo:6.0
+    container_name: vps-guardian-db
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=vpsguardian
+      - MONGO_INITDB_ROOT_PASSWORD=guardian2024
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - vps-network
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+  # Backend
+  backend:
+    build: ./backend
+    container_name: vps-guardian-backend
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - MONGODB_URI=mongodb://vpsguardian:guardian2024@mongodb:27017/vpsguardian?authSource=admin
+      - JWT_SECRET=vps-guardian-secret-key-change-this-in-production
+      - DEFAULT_ADMIN_USER=admin
+      - DEFAULT_ADMIN_PASS=admin
+      - MAX_BACKUPS=6
+      - BACKUP_SCHEDULE=0 1 * * *
+      - CPU_THRESHOLD=90
+      - MEMORY_THRESHOLD=90
+      - DISK_THRESHOLD=85
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./backups:/app/backups
+      - ./logs:/app/logs
+      - ./data:/app/data
+    networks:
+      - vps-network
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # Frontend
+  frontend:
+    build: ./frontend
+    container_name: vps-guardian-frontend
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      - VITE_API_URL=http://localhost:3000
+    networks:
+      - vps-network
+    depends_on:
+      backend:
+        condition: service_healthy
+
+volumes:
+  mongodb_data:
+
+networks:
+  vps-network:
+    driver: bridge

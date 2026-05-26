@@ -1,0 +1,44 @@
+# Dependências
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# Builds
+dist/
+build/
+*.log
+
+# Ambiente
+.env
+.env.local
+.env.production
+
+# Dados persistentes e sensíveis
+backups/
+logs/
+data/
+mongodb_data/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Docker
+.dockerignore
+
+# Testes
+coverage/
+.nyc_output/
+
+# Temporários
+*.tmp
+*.temp
+.cache/
